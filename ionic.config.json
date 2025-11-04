@@ -1,0 +1,7 @@
+{
+  "name": "repasoAPIs",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
