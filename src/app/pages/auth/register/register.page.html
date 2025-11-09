@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/auth/login"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Crear Cuenta</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="register-container">
+    <div class="header-section">
+      <ion-icon name="person-add" color="primary"></ion-icon>
+      <h2>Regístrate</h2>
+      <p>Crea tu cuenta para comenzar</p>
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="register()">
+      <ion-item lines="full">
+        <ion-label position="floating">Email</ion-label>
+        <ion-input type="email" formControlName="email"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+        <p class="error-message">Email inválido</p>
+      </ion-text>
+
+      <ion-item lines="full">
+        <ion-label position="floating">Contraseña</ion-label>
+        <ion-input type="password" formControlName="password"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+        <p class="error-message">Mínimo 6 caracteres</p>
+      </ion-text>
+
+      <ion-item lines="full">
+        <ion-label position="floating">Confirmar Contraseña</ion-label>
+        <ion-input type="password" formControlName="confirmPassword"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="registerForm.get('confirmPassword')?.hasError('passwordMismatch') && registerForm.get('confirmPassword')?.touched">
+        <p class="error-message">Las contraseñas no coinciden</p>
+      </ion-text>
+
+      <ion-button expand="block" type="submit" [disabled]="!registerForm.valid" class="register-button">
+        Crear Cuenta
+      </ion-button>
+    </form>
+
+    <div class="login-section">
+      <p>¿Ya tienes cuenta?</p>
+      <ion-button fill="clear" (click)="goToLogin()">
+        Iniciar Sesión
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

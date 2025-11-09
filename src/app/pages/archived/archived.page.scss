@@ -1,0 +1,198 @@
+.page-container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding-bottom: 2rem;
+}
+
+// TARJETA DEL CHISTE
+.joke-card {
+  background: linear-gradient(135deg, var(--ion-color-primary-tint), var(--ion-color-primary));
+  border-radius: 20px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  animation: slideIn 0.5s ease;
+}
+
+.joke-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+
+  ion-avatar {
+    width: 60px;
+    height: 60px;
+    border: 3px solid white;
+  }
+
+  .header-info {
+    flex: 1;
+
+    h3 {
+      color: white;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin: 0 0 0.5rem 0;
+    }
+
+    ion-badge {
+      margin-right: 0.5rem;
+      margin-top: 0.3rem;
+    }
+  }
+}
+
+.joke-content {
+  background: white;
+  border-radius: 15px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  position: relative;
+
+  .quote-icon {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 2rem;
+    color: var(--ion-color-primary);
+    opacity: 0.2;
+  }
+
+  .joke-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--ion-color-dark);
+    margin: 0;
+    padding-left: 1rem;
+  }
+}
+
+.joke-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+
+  ion-button {
+    --color: white;
+    --background: rgba(255, 255, 255, 0.2);
+    --border-radius: 12px;
+  }
+}
+
+// CATEGORÍAS
+.category-section {
+  margin-bottom: 2rem;
+
+  h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  .category-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+
+    ion-chip {
+      cursor: pointer;
+      transition: transform 0.2s;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+
+      &:not([outline]) {
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+// BOTÓN PRINCIPAL
+.main-button {
+  margin-bottom: 2rem;
+  --border-radius: 15px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  height: 56px;
+}
+
+// FAVORITOS
+.favorites-section {
+  margin-bottom: 2rem;
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+
+    h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin: 0;
+    }
+  }
+
+  ion-list {
+    background: transparent;
+  }
+
+  ion-item {
+    --background: var(--ion-color-light);
+    --border-radius: 12px;
+    margin-bottom: 0.5rem;
+
+    ion-avatar {
+      width: 40px;
+      height: 40px;
+    }
+
+    p {
+      font-size: 0.9rem;
+      color: var(--ion-color-dark);
+    }
+  }
+}
+
+// HISTORIAL
+.history-section {
+  h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  ion-list {
+    background: transparent;
+  }
+
+  ion-item {
+    --background: var(--ion-color-light);
+    --border-radius: 8px;
+    margin-bottom: 0.5rem;
+
+    &.current {
+      --background: var(--ion-color-primary-tint);
+    }
+
+    p {
+      font-size: 0.85rem;
+      color: var(--ion-color-medium);
+    }
+  }
+}
+
+// ANIMACIONES
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

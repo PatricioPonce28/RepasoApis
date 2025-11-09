@@ -3,8 +3,11 @@
     <ion-menu contentId="main-content" type="overlay">
       <ion-content>
         <ion-list id="inbox-list">
-          <ion-list-header>Inbox</ion-list-header>
-          <ion-note>hi&#64;ionicframework.com</ion-note>
+          <ion-list-header>Repaso de APIS</ion-list-header>
+          
+          <!-- ← AGREGAR: EMAIL DINÁMICO -->
+          <ion-note *ngIf="user">{{ user.email }}</ion-note>
+          <ion-note *ngIf="!user"><b>Inicia Sesión Para Poder Consumir Las APIS <br>Si no inició sesión no podrá ver las APIS</b> </ion-note>
 
           @for (p of appPages; track p; let i = $index) {
             <ion-menu-toggle auto-hide="false">
@@ -16,15 +19,19 @@
           }
         </ion-list>
 
-        <ion-list id="labels-list">
-          <ion-list-header>Labels</ion-list-header>
-
-          @for (label of labels; track label) {
-            <ion-item lines="none">
-              <ion-icon aria-hidden="true" slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
-              <ion-label>{{ label }}</ion-label>
+        <ion-list class="logout-section">
+          <ion-menu-toggle auto-hide="false">
+            <!-- ← MOSTRAR SOLO SI LOGUEADO -->
+            <ion-item *ngIf="user" button (click)="logout()" lines="none" detail="false">
+              <ion-icon slot="start" name="log-out"></ion-icon>
+              <ion-label>Cerrar Sesión</ion-label>
             </ion-item>
-          }
+            <!-- ← BOTÓN LOGIN SI NO LOGUEADO -->
+            <ion-item *ngIf="!user" button routerLink="/auth/login" lines="none" detail="false">
+              <ion-icon slot="start" name="log-in"></ion-icon>
+              <ion-label>Iniciar Sesión</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
         </ion-list>
       </ion-content>
     </ion-menu>

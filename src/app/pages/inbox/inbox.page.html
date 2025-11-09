@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar color="warning">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>¿Qué personaje eres?</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- QUIZ -->
+  <div *ngIf="showQuiz" class="quiz-container">
+    <div class="intro-section">
+      <ion-icon name="cafe" color="warning" class="main-icon"></ion-icon>
+      <h1>¡Descubre qué personaje de Los Simpson eres!</h1>
+      <p>Responde y te diremos con quién tienes más en común</p>
+    </div>
+
+    <div *ngFor="let q of questions" class="question-card">
+      <h2>{{ q.question }}</h2>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="6" *ngFor="let option of q.options; trackBy: trackByOption">
+            <ion-card 
+              [class.selected]="isAnswerSelected(q.id, option.value)"
+              (click)="selectAnswer(q.id, option.value)"
+              button>
+              <ion-card-content class="option-content">
+                <ion-icon [name]="option.icon" size="large"></ion-icon>
+                <p>{{ option.label }}</p>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+
+    <ion-button expand="block" size="large" color="warning" (click)="getResult()" [disabled]="!allQuestionsAnswered()">
+      Ver Resultado
+    </ion-button>
+  </div>
+
+  <!-- RESULTADO -->
+  <div *ngIf="!showQuiz && character" class="result-container">
+    <h1 class="character-name">¡Eres {{ character.name }}!</h1>
+
+    <!-- Frase icónica animada -->
+    <div class="iconic-quote">
+      <h2 #quoteText>{{ typedQuote }}<span class="cursor" [class.blink]="isTyping">|</span></h2>
+    </div>
+
+    <!-- Descripción -->
+    <p class="description">{{ character.description }}</p>
+
+    <!-- Frase completa -->
+    <div class="full-quote">
+      <ion-icon name="chatbox-ellipses" color="warning"></ion-icon>
+      <p>"{{ character.fullQuote }}"</p>
+    </div>
+
+    <ion-button expand="block" fill="outline" (click)="resetQuiz()">
+      <ion-icon name="refresh" slot="start"></ion-icon>
+      Intentar de nuevo
+    </ion-button>
+  </div>
+</ion-content>

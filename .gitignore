@@ -68,3 +68,38 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Angular / Ionic / Capacitor build files
+www/                    # Ionic/Capacitor output (si usas ionic build -> www)
+dist/
+build/
+
+# Capacitor / Android / iOS
+android/
+ios/
+native/
+plugins/
+
+# Firebase local state
+.firebase/
+.firebase_debug.log
+firebaserc            # opcional: si no quieres compartir la vinculación a proyectos
+
+# Logs
+*.log
+
+# Editor / OS
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+Thumbs.db
+.DS_Store
+
+# TypeScript build
+*.tsbuildinfo
+
+# Others
+coverage/
+tmp/

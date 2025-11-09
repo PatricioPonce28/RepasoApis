@@ -1,0 +1,160 @@
+<ion-header>
+  <ion-toolbar color="success">
+    <ion-buttons slot="start">
+      <ion-menu-button *ngIf="!showDetail"></ion-menu-button>
+      <ion-button *ngIf="showDetail" (click)="closeDetail()">
+        <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>🛸 Rick and Morty</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <!-- LISTA DE PERSONAJES -->
+  <div *ngIf="!showDetail" class="characters-list">
+    
+    <!-- BARRA DE BÚSQUEDA -->
+    <div class="search-section ion-padding">
+      <ion-searchbar 
+        [(ngModel)]="searchTerm"
+        (ionInput)="searchCharacters()"
+        (ionClear)="clearSearch()"
+        placeholder="Buscar personaje..."
+        animated>
+      </ion-searchbar>
+
+      <!-- FILTROS -->
+      <div class="filters">
+        <ion-segment [(ngModel)]="selectedStatus" (ionChange)="filterByStatus()">
+          <ion-segment-button *ngFor="let option of statusOptions" [value]="option.value">
+            <ion-label>{{ option.label }}</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+      </div>
+
+      <!-- BOTÓN ALEATORIO -->
+      <ion-button expand="block" fill="outline" (click)="loadRandomCharacter()">
+        <ion-icon name="shuffle" slot="start"></ion-icon>
+        Personaje Aleatorio
+      </ion-button>
+    </div>
+
+    <!-- GRID DE PERSONAJES -->
+    <ion-grid class="ion-padding">
+      <ion-row>
+        <ion-col size="6" size-md="4" size-lg="3" *ngFor="let character of filteredCharacters">
+          <ion-card (click)="viewCharacter(character)" class="character-card">
+            <img [src]="character.image" [alt]="character.name">
+            <ion-card-header>
+              <ion-card-title class="character-name">{{ character.name }}</ion-card-title>
+              <ion-badge [color]="getStatusColor(character.status)">
+                {{ character.status }}
+              </ion-badge>
+            </ion-card-header>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <!-- MENSAJE SI NO HAY RESULTADOS -->
+    <div *ngIf="filteredCharacters.length === 0" class="no-results ion-padding">
+      <ion-icon name="sad-outline" color="medium"></ion-icon>
+      <p>No se encontraron personajes</p>
+    </div>
+
+    <!-- PAGINACIÓN -->
+    <div class="pagination ion-padding">
+      <ion-button 
+        fill="outline" 
+        [disabled]="currentPage === 1"
+        (click)="prevPage()">
+        <ion-icon name="chevron-back" slot="icon-only"></ion-icon>
+      </ion-button>
+      
+      <span class="page-info">Página {{ currentPage }} de {{ totalPages }}</span>
+      
+      <ion-button 
+        fill="outline" 
+        [disabled]="currentPage === totalPages"
+        (click)="nextPage()">
+        <ion-icon name="chevron-forward" slot="icon-only"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+
+  <!-- DETALLE DEL PERSONAJE -->
+  <div *ngIf="showDetail && selectedCharacter" class="character-detail">
+    <div class="detail-header">
+      <div class="character-portrait">
+    <img [src]="selectedCharacter.image" [alt]="selectedCharacter.name">
+     </div>>
+      <div class="header-overlay">
+        <ion-badge [color]="getStatusColor(selectedCharacter.status)">
+          {{ selectedCharacter.status }}
+        </ion-badge>
+      </div>
+    </div>
+
+    <div class="detail-content ion-padding">
+      <h1>{{ selectedCharacter.name }}</h1>
+
+      <ion-list class="info-list">
+        <ion-item>
+          <ion-icon [name]="getSpeciesIcon(selectedCharacter.species)" slot="start" color="success"></ion-icon>
+          <ion-label>
+            <h3>Especie</h3>
+            <p>{{ selectedCharacter.species }}</p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item *ngIf="selectedCharacter.type">
+          <ion-icon name="pricetag" slot="start" color="success"></ion-icon>
+          <ion-label>
+            <h3>Tipo</h3>
+            <p>{{ selectedCharacter.type }}</p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-icon name="male-female" slot="start" color="success"></ion-icon>
+          <ion-label>
+            <h3>Género</h3>
+            <p>{{ selectedCharacter.gender }}</p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-icon name="location" slot="start" color="success"></ion-icon>
+          <ion-label>
+            <h3>Origen</h3>
+            <p>{{ selectedCharacter.origin.name }}</p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-icon name="navigate" slot="start" color="success"></ion-icon>
+          <ion-label>
+            <h3>Última ubicación</h3>
+            <p>{{ selectedCharacter.location.name }}</p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-icon name="tv" slot="start" color="success"></ion-icon>
+          <ion-label>
+            <h3>Apariciones</h3>
+            <p>{{ selectedCharacter.episode.length }} episodios</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+
+      <ion-button expand="block" fill="outline" (click)="closeDetail()">
+        <ion-icon name="arrow-back" slot="start"></ion-icon>
+        Volver a la lista
+      </ion-button>
+    </div>
+  </div>
+
+</ion-content>

@@ -1,0 +1,98 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>🎂 Adivina tu edad</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="page-container">
+    
+    <!-- FORMULARIO -->
+    <div *ngIf="!showResult" class="form-container">
+      <div class="intro-section">
+        <ion-icon name="calendar" color="primary" class="main-icon"></ion-icon>
+        <h1>¿Cuántos años tienes?</h1>
+        <p>Escribe tu nombre y te diré tu edad aproximada basándome en datos estadísticos</p>
+      </div>
+
+      <form [formGroup]="nameForm" (ngSubmit)="predictAge()">
+        <ion-item lines="full" class="name-input">
+          <ion-label position="floating">Tu nombre</ion-label>
+          <ion-input 
+            type="text" 
+            formControlName="name"
+            placeholder="Ej: María, Carlos, Ana...">
+          </ion-input>
+        </ion-item>
+        <ion-text color="danger" *ngIf="nameForm.get('name')?.invalid && nameForm.get('name')?.touched">
+          <p class="error-message">El nombre debe tener al menos 2 letras</p>
+        </ion-text>
+
+        <ion-button 
+          expand="block" 
+          size="large"
+          type="submit"
+          [disabled]="!nameForm.valid"
+          class="predict-button">
+          <ion-icon name="search" slot="start"></ion-icon>
+          Adivinar mi edad
+        </ion-button>
+      </form>
+
+      <!-- HISTORIAL -->
+      <div *ngIf="history.length > 0" class="history-section">
+        <div class="history-header">
+          <h3>Búsquedas recientes</h3>
+          <ion-button fill="clear" size="small" (click)="clearHistory()">
+            <ion-icon name="trash" slot="icon-only"></ion-icon>
+          </ion-button>
+        </div>
+        
+        <ion-list>
+          <ion-item *ngFor="let item of history" button (click)="searchFromHistory(item.name)">
+            <ion-label>
+              <h2>{{ item.emoji }} {{ item.name }}</h2>
+              <p>{{ item.age }} años</p>
+            </ion-label>
+            <ion-icon name="chevron-forward" slot="end"></ion-icon>
+          </ion-item>
+        </ion-list>
+      </div>
+    </div>
+
+    <!-- RESULTADO -->
+    <div *ngIf="showResult && result" class="result-container">
+      <div class="result-card">
+        <div class="emoji-circle" [attr.data-color]="result.color">
+          <span class="emoji">{{ result.emoji }}</span>
+        </div>
+        
+        <h1>{{ result.name }}</h1>
+        
+        <div class="age-display">
+          <span class="age-number">{{ result.age }}</span>
+          <span class="age-label">años</span>
+        </div>
+
+        <div class="message-section">
+          <ion-icon name="sparkles" [color]="result.color"></ion-icon>
+          <p>{{ result.message }}</p>
+        </div>
+
+        <div class="info-card">
+          <ion-icon name="information-circle-outline"></ion-icon>
+          <p>Esta predicción se basa en <strong>{{ result.count | number }}</strong> personas con tu nombre en nuestra base de datos</p>
+        </div>
+      </div>
+
+      <ion-button expand="block" fill="outline" (click)="reset()">
+        <ion-icon name="refresh" slot="start"></ion-icon>
+        Probar otro nombre
+      </ion-button>
+    </div>
+
+  </div>
+</ion-content>
